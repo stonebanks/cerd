@@ -1,5 +1,6 @@
 package com.themegalith.bks.yaccerd.presentation
 
+import android.arch.lifecycle.LifecycleActivity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.themegalith.bks.yaccerd.YaccerdApplication

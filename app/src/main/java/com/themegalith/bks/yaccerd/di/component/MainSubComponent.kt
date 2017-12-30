@@ -10,6 +10,6 @@ import dagger.Subcomponent
  */
 @MainScope
 @Subcomponent(modules= arrayOf(MainModule::class))
-interface MainComponent {
+interface MainSubComponent {
     fun inject(activity: MainActivity)
 }

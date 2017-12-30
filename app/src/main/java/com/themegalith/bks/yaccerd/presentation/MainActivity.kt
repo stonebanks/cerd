@@ -1,5 +1,8 @@
 package com.themegalith.bks.yaccerd
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -8,20 +11,25 @@ import android.view.MenuItem
 import com.themegalith.bks.yaccerd.di.component.ApplicationComponent
 import com.themegalith.bks.yaccerd.di.module.MainModule
 import com.themegalith.bks.yaccerd.presentation.BaseActivity
-import com.themegalith.bks.yaccerd.utils.app
+import com.themegalith.bks.yaccerd.viewModel.MainActivityViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
+
+    @Inject lateinit var viewModel: MainActivityViewModel
+
     override fun injectDependencies(component: ApplicationComponent) {
         component.plus(MainModule(this))
-                .inject(this);
+                .inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        viewModel.loadTicker()
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

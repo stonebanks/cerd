@@ -1,10 +1,8 @@
-package com.themegalith.bks.yaccerd.network.services
+package com.themegalith.bks.yaccerd.network
 
 import com.squareup.moshi.Json
 import io.reactivex.Single
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.adapter.rxjava.Result
+import retrofit2.adapter.rxjava2.Result
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -25,7 +23,7 @@ object CoinMarketCapApi {
         var market_cap_usd: Double = 0.0
         var available_supply: Double = 0.0
         var total_supply: Double = 0.0
-        var max_supply: Double = 0.0
+        var max_supply: Float? = 0.0f
         var percent_change_1h: Double = 0.0
         var percent_change_24h: Double = 0.0
         var percent_change_7d: Double = 0.0
@@ -33,7 +31,7 @@ object CoinMarketCapApi {
     }
 
     interface Service {
-        @GET("ticker/{crypto}")
+        @GET("ticker/{id}")
         fun getTickerForSpecificCrypto(
                 @Path("id") id: String,
                 @Query("convert") fiat: String?
