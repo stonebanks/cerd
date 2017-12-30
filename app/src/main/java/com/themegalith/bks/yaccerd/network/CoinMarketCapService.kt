@@ -31,9 +31,8 @@ object CoinMarketCapApi {
     }
 
     interface Service {
-        @GET("ticker/{id}")
+        @GET("ticker")
         fun getTickerForSpecificCrypto(
-                @Path("id") id: String,
                 @Query("convert") fiat: String?
         ) : Single<Result<List<Ticker>>>
     }

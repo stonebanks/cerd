@@ -10,8 +10,8 @@ import javax.inject.Inject
  * Created by allan on 28/12/17.
  */
 class Repository @Inject constructor(val service: CoinMarketCapApi.Service) {
-    fun getTickerForSpecificCrypto(id: String, fiat: String?) : Single<CoinMarketCapApi.Ticker>? {
-        return service.getTickerForSpecificCrypto(id, fiat)
+    fun getTickerForSpecificCrypto(fiat: String?) : Single<List<CoinMarketCapApi.Ticker>>? {
+        return service.getTickerForSpecificCrypto(fiat)
                 .subscribeOn(Schedulers.io())
                 .map { result ->
 
@@ -19,7 +19,7 @@ class Repository @Inject constructor(val service: CoinMarketCapApi.Service) {
                         result.isError -> {Timber.e(result.error())
                             throw result.error()!!}
                         !(result.response()?.isSuccessful)!! -> throw RuntimeException(result.response()?.errorBody().toString())
-                        else -> return@map result.response()?.body()?.get(0)
+                        else -> return@map result.response()?.body()
                     }
                 }
     }

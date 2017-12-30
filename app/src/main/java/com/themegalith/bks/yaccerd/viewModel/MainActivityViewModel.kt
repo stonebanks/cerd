@@ -21,11 +21,11 @@ class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInt
         return ticker!!
     }
 
-    private fun loadTicker(observable : Single<CoinMarketCapApi.Ticker>?) {
+    private fun loadTicker(observable : Single<List<CoinMarketCapApi.Ticker>>?) {
         if (observable != null) {
             observable.observeOn(AndroidSchedulers.mainThread())
                     .subscribe ({
-                        t -> Timber.d(t.symbol)
+                        t -> Timber.d(t[0].symbol)
                     }, {
                         error -> Timber.e(error)
                     })
@@ -33,7 +33,6 @@ class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInt
         }
 
     fun loadTicker(){
-        interactor.setCryptoId("ethereum")
         interactor.setFiat("CAD")
         loadTicker(interactor.execute())
     }
