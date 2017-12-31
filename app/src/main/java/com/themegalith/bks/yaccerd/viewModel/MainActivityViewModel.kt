@@ -5,6 +5,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.themegalith.bks.yaccerd.domain.interactor.TickerGetterInteractor
 import com.themegalith.bks.yaccerd.network.CoinMarketCapApi
+import com.themegalith.bks.yaccerd.presentation.model.Ticker
+import com.themegalith.bks.yaccerd.utils.TickerMapper
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import timber.log.Timber
@@ -14,26 +16,27 @@ import javax.inject.Inject
 /**
  * Created by allan on 30/12/17.
  */
-class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInteractor) : ViewModel(){
-    private var ticker : MutableLiveData<CoinMarketCapApi.Ticker>? = null
+class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInteractor) : ViewModel() {
+    private var ticker: MutableLiveData<List<Ticker>>? = null
 
-    fun getTicker() : LiveData<CoinMarketCapApi.Ticker> {
+    fun getTicker(): LiveData<List<Ticker>> {
+        if (ticker == null) {
+            ticker = MutableLiveData()
+
+            interactor.setFiat("CAD")
+            loadTicker(interactor.execute())
+        }
         return ticker!!
     }
 
-    private fun loadTicker(observable : Single<List<CoinMarketCapApi.Ticker>>?) {
-        if (observable != null) {
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe ({
-                        t -> Timber.d(t[0].symbol)
-                    }, {
-                        error -> Timber.e(error)
+    private fun loadTicker(single: Single<List<CoinMarketCapApi.Ticker>>?) {
+        if (single != null) {
+            single.observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ t ->
+                        ticker?.postValue(t.map { TickerMapper.map(it)})
+                    }, { error ->
+                        Timber.e(error)
                     })
-            }
         }
-
-    fun loadTicker(){
-        interactor.setFiat("CAD")
-        loadTicker(interactor.execute())
     }
 }

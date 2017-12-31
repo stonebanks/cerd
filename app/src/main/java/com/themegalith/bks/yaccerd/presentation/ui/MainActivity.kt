@@ -1,24 +1,31 @@
 package com.themegalith.bks.yaccerd
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.themegalith.bks.yaccerd.di.component.ApplicationComponent
 import com.themegalith.bks.yaccerd.di.module.MainModule
 import com.themegalith.bks.yaccerd.presentation.BaseActivity
 import com.themegalith.bks.yaccerd.viewModel.MainActivityViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
+import org.reactivestreams.Subscription
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
     @Inject lateinit var viewModel: MainActivityViewModel
+    lateinit var recyclerView : RecyclerView
 
     override fun injectDependencies(component: ApplicationComponent) {
         component.plus(MainModule(this))
@@ -29,7 +36,16 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        viewModel.loadTicker()
+
+        recyclerView = findViewById(R.id.my_recycler_view)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+
+
+
+        viewModel.getTicker()
+
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
