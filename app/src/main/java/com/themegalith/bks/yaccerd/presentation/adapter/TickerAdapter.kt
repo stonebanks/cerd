@@ -1,5 +1,6 @@
 package com.themegalith.bks.yaccerd.presentation.adapter
 
+import android.content.Context
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -12,13 +13,9 @@ import com.themegalith.bks.yaccerd.presentation.model.Ticker
 /**
  * Created by allan on 31/12/17.
  */
-class TickerAdapter(tickers: List<Ticker>) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>() {
+class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>() {
 
-    private var tickers: List<Ticker> = mutableListOf()
-
-    init {
-        this.tickers = tickers
-    }
+    var tickers: List<Ticker> = mutableListOf()
 
     override fun onBindViewHolder(holder: TickerViewHolder?, position: Int) {
         holder?.cryptoNameTextView?.setText(tickers[position].name)

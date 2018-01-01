@@ -15,6 +15,8 @@ import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.themegalith.bks.yaccerd.di.component.ApplicationComponent
 import com.themegalith.bks.yaccerd.di.module.MainModule
 import com.themegalith.bks.yaccerd.presentation.BaseActivity
+import com.themegalith.bks.yaccerd.presentation.adapter.TickerAdapter
+import com.themegalith.bks.yaccerd.presentation.model.Ticker
 import com.themegalith.bks.yaccerd.viewModel.MainActivityViewModel
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,6 +28,7 @@ class MainActivity : BaseActivity() {
 
     @Inject lateinit var viewModel: MainActivityViewModel
     lateinit var recyclerView : RecyclerView
+    var tickerAdapter: TickerAdapter? = null
 
     override fun injectDependencies(component: ApplicationComponent) {
         component.plus(MainModule(this))
@@ -43,8 +46,16 @@ class MainActivity : BaseActivity() {
 
 
 
-
-        viewModel.getTicker()
+        viewModel.getTicker().observe(this,
+                Observer {
+                    if (tickerAdapter == null ){
+                        tickerAdapter = TickerAdapter(this)
+                        recyclerView.adapter = tickerAdapter
+                    }
+                    if (it != null){
+                        tickerAdapter!!.tickers = it
+                    }
+                })
 
 
         fab.setOnClickListener { view ->
