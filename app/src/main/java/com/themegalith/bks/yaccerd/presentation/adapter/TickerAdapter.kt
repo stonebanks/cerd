@@ -6,21 +6,26 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import com.themegalith.bks.yaccerd.R
 import com.themegalith.bks.yaccerd.presentation.model.Ticker
+import kotlinx.android.synthetic.main.cardview_ticker.view.*
+import timber.log.Timber
 
 /**
  * Created by allan on 31/12/17.
  */
-class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>() {
+class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>(), Filterable{
 
     var tickers: List<Ticker> = mutableListOf()
+    var filteredTickers : List<Ticker> = mutableListOf()
 
     override fun onBindViewHolder(holder: TickerViewHolder?, position: Int) {
-        holder?.cryptoNameTextView?.setText(tickers[position].name)
-        holder?.cryptoPriceTextView?.setText(tickers[position].price.toString())
-        holder?.cryptoSymbolTextView?.setText(tickers[position].symbol)
+        holder?.cryptoNameTextView?.setText(filteredTickers[position].name)
+        holder?.cryptoPriceTextView?.setText(filteredTickers[position].price.toString())
+        holder?.cryptoSymbolTextView?.setText(filteredTickers[position].symbol)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TickerViewHolder {
@@ -29,13 +34,38 @@ class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.Ticke
     }
 
     override fun getItemCount(): Int {
-        return tickers.size
+        return filteredTickers.size
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+                var constraint = constraint.toString()
+                var test =  FilterResults().also {
+                    var filtered = if (!constraint.isNullOrEmpty()) tickers.filter {
+                        Timber.d(it.name)
+                        it.name.toLowerCase().contains(constraint, true)
+                    }
+                        else tickers
+                    it.values = filtered
+                    it.count = filtered.size
+                }
+                return test
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredTickers = results?.values as List<Ticker>
+                notifyDataSetChanged()
+            }
+
+        }
     }
 
     inner class TickerViewHolder constructor(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var cryptoSymbolTextView: TextView = itemView.findViewById(R.id.crypto_symbol) as TextView
-        var cryptoNameTextView: TextView = itemView.findViewById(R.id.crypto_name) as TextView
-        var cryptoPriceTextView: TextView = itemView.findViewById(R.id.crypto_price) as TextView
-        var cardView: CardView =  itemView.findViewById(R.id.card_view) as CardView
+
+        var cryptoSymbolTextView: TextView = itemView.cryptoSymbol as TextView
+        var cryptoNameTextView: TextView = itemView.cryptoName as TextView
+        var cryptoPriceTextView: TextView = itemView.cryptoPrice as TextView
     }
 }
