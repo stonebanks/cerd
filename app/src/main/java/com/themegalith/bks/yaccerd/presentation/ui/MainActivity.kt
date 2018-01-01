@@ -1,27 +1,18 @@
 package com.themegalith.bks.yaccerd
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView
 import com.themegalith.bks.yaccerd.di.component.ApplicationComponent
 import com.themegalith.bks.yaccerd.di.module.MainModule
 import com.themegalith.bks.yaccerd.presentation.BaseActivity
 import com.themegalith.bks.yaccerd.presentation.adapter.TickerAdapter
-import com.themegalith.bks.yaccerd.presentation.model.Ticker
 import com.themegalith.bks.yaccerd.viewModel.MainActivityViewModel
-
 import kotlinx.android.synthetic.main.activity_main.*
-import org.reactivestreams.Subscription
-import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {

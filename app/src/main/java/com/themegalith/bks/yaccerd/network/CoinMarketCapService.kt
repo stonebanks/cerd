@@ -4,7 +4,6 @@ import com.squareup.moshi.Json
 import io.reactivex.Single
 import retrofit2.adapter.rxjava2.Result
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
