@@ -3,8 +3,6 @@ package com.themegalith.bks.yaccerd
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.design.widget.TabItem
-import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.Menu
@@ -16,12 +14,10 @@ import com.themegalith.bks.yaccerd.presentation.BaseActivity
 import com.themegalith.bks.yaccerd.presentation.adapter.TickerAdapter
 import com.themegalith.bks.yaccerd.viewModel.MainActivityViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import timber.log.Timber
-import javax.inject.Inject
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 

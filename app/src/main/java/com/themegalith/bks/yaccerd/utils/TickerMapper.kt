@@ -11,7 +11,7 @@ import java.util.*
  */
 class TickerMapper {
     companion object {
-        fun map(ticker: CoinMarketCapApi.Ticker) : Ticker = Ticker(
+        fun convert(ticker: CoinMarketCapApi.Ticker) : Ticker = Ticker(
                 name = ticker.name!!,
                 symbol = ticker.symbol!!,
                 price = Currency.getInstance("USD").getSymbol().toString() +

@@ -20,7 +20,6 @@ class TickerGetterInteractor @Inject constructor(val repository: Repository) {
     }
 
     fun execute() : Single<List<CoinMarketCapApi.Ticker>>? {
-        Timber.d("ici")
         return repository.getTickerForSpecificCrypto(fiat)
     }
 }

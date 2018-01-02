@@ -17,23 +17,25 @@ import javax.inject.Inject
  * Created by allan on 30/12/17.
  */
 class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInteractor) : ViewModel() {
-    private var ticker: MutableLiveData<List<Ticker>>? = null
+    private var tickers: MutableLiveData<List<Ticker>>? = null
 
     fun getTicker(): LiveData<List<Ticker>> {
-        if (ticker == null) {
-            ticker = MutableLiveData()
+        if (tickers == null) {
+            tickers = MutableLiveData()
 
             interactor.setFiat("CAD")
             loadTicker(interactor.execute())
         }
-        return ticker!!
+        return tickers!!
     }
 
     private fun loadTicker(single: Single<List<CoinMarketCapApi.Ticker>>?) {
         if (single != null) {
             single.observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ t ->
-                        ticker?.postValue(t.map { TickerMapper.map(it)})
+                        tickers?.postValue(
+                                t.map { TickerMapper.convert(it)}.sortedBy { it.symbol }
+                        )
                     }, { error ->
                         Timber.e(error)
                     })

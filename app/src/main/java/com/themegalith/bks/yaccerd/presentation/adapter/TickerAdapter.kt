@@ -1,7 +1,6 @@
 package com.themegalith.bks.yaccerd.presentation.adapter
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -44,8 +43,7 @@ class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.Ticke
                 var constraint = constraint.toString()
                 var test =  FilterResults().also {
                     var filtered = if (!constraint.isNullOrEmpty()) tickers.filter {
-                        Timber.d(it.name)
-                        it.name.toLowerCase().contains(constraint, true)
+                        it.name.contains(constraint, true) || it.symbol.contains(constraint, true)
                     }
                         else tickers
                     it.values = filtered
