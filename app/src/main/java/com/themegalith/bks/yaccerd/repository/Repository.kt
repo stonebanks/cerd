@@ -10,7 +10,7 @@ import javax.inject.Inject
  * Created by allan on 28/12/17.
  */
 class Repository @Inject constructor(val service: CoinMarketCapApi.Service) {
-    fun getTickerForSpecificCrypto(fiat: String?) : Single<List<CoinMarketCapApi.Ticker>>? {
+    fun getTickerForSpecificCrypto(fiat: String?) : Single<MutableList<CoinMarketCapApi.Ticker>>? {
         return service.getTickerForSpecificCrypto(fiat)
                 .subscribeOn(Schedulers.io())
                 .map { result ->

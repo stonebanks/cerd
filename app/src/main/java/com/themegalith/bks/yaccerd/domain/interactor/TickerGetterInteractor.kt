@@ -19,7 +19,7 @@ class TickerGetterInteractor @Inject constructor(val repository: Repository) {
         fiat = value
     }
 
-    fun execute() : Single<List<CoinMarketCapApi.Ticker>>? {
+    fun execute() : Single<MutableList<CoinMarketCapApi.Ticker>>? {
         return repository.getTickerForSpecificCrypto(fiat)
     }
 }

@@ -33,7 +33,7 @@ object CoinMarketCapApi {
         @GET("ticker")
         fun getTickerForSpecificCrypto(
                 @Query("convert") fiat: String?
-        ) : Single<Result<List<Ticker>>>
+        ) : Single<Result<MutableList<Ticker>>>
     }
 
 }

@@ -10,24 +10,25 @@ import android.widget.Filterable
 import android.widget.TextView
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import com.themegalith.bks.yaccerd.R
-import com.themegalith.bks.yaccerd.presentation.model.Ticker
+import com.themegalith.bks.yaccerd.presentation.model.TickerModel
 import kotlinx.android.synthetic.main.cardview_ticker.view.*
+import timber.log.Timber
 
 /**
  * Created by allan on 31/12/17.
  */
 class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>(), FastScrollRecyclerView.SectionedAdapter, Filterable{
     override fun getSectionName(position: Int): String {
-        return Character.toString(filteredTickers.get(position).name[0])
+        return Character.toString(filteredTickers.get(position).symbol[0])
     }
 
-    var tickers: List<Ticker> = mutableListOf()
-    var filteredTickers : List<Ticker> = mutableListOf()
+    var tickers: MutableList<TickerModel> = mutableListOf()
+    var filteredTickers : MutableList<TickerModel> = mutableListOf()
 
     override fun onBindViewHolder(holder: TickerViewHolder?, position: Int) {
-        holder?.cryptoNameTextView?.setText(filteredTickers[position].name)
-        holder?.cryptoPriceTextView?.setText(filteredTickers[position].price.toString())
-        holder?.cryptoSymbolTextView?.setText(filteredTickers[position].symbol)
+        holder?.cryptoNameTextView?.text = filteredTickers[position].name
+        holder?.cryptoPriceTextView?.text = filteredTickers[position].price
+        holder?.cryptoSymbolTextView?.text = filteredTickers[position].symbol
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TickerViewHolder {
@@ -37,6 +38,11 @@ class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.Ticke
 
     override fun getItemCount(): Int {
         return filteredTickers.size
+    }
+
+    fun clear() {
+        filteredTickers = mutableListOf()
+        notifyDataSetChanged()
     }
 
     override fun getFilter(): Filter {
@@ -56,7 +62,8 @@ class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.Ticke
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredTickers = results?.values as List<Ticker>
+                Timber.d("Publishing filtered results...")
+                filteredTickers = results?.values as MutableList<TickerModel>
                 notifyDataSetChanged()
             }
 

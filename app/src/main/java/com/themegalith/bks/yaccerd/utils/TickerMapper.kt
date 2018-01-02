@@ -1,7 +1,7 @@
 package com.themegalith.bks.yaccerd.utils
 
 import com.themegalith.bks.yaccerd.network.CoinMarketCapApi
-import com.themegalith.bks.yaccerd.presentation.model.Ticker
+import com.themegalith.bks.yaccerd.presentation.model.TickerModel
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.util.*
@@ -11,7 +11,7 @@ import java.util.*
  */
 class TickerMapper {
     companion object {
-        fun convert(ticker: CoinMarketCapApi.Ticker) : Ticker = Ticker(
+        fun convert(ticker: CoinMarketCapApi.Ticker) : TickerModel = TickerModel(
                 name = ticker.name!!,
                 symbol = ticker.symbol!!,
                 price = Currency.getInstance("USD").getSymbol().toString() +
