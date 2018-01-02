@@ -3,11 +3,13 @@ package com.themegalith.bks.yaccerd
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import com.themegalith.bks.yaccerd.di.component.ApplicationComponent
 import com.themegalith.bks.yaccerd.di.module.MainModule
 import com.themegalith.bks.yaccerd.presentation.BaseActivity
@@ -36,6 +38,7 @@ class MainActivity : BaseActivity() {
 
         recyclerview.setHasFixedSize(true)
         recyclerview.layoutManager = LinearLayoutManager(this)
+        recyclerview.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
 
         viewModel.getTicker().observe(this,

@@ -8,15 +8,18 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
 import com.themegalith.bks.yaccerd.R
 import com.themegalith.bks.yaccerd.presentation.model.Ticker
 import kotlinx.android.synthetic.main.cardview_ticker.view.*
-import timber.log.Timber
 
 /**
  * Created by allan on 31/12/17.
  */
-class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>(), Filterable{
+class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>(), FastScrollRecyclerView.SectionedAdapter, Filterable{
+    override fun getSectionName(position: Int): String {
+        return Character.toString(filteredTickers.get(position).name[0])
+    }
 
     var tickers: List<Ticker> = mutableListOf()
     var filteredTickers : List<Ticker> = mutableListOf()
