@@ -63,7 +63,6 @@ class MainActivity : BaseActivity() {
 
         viewModel.getTicker().observe(this, observer)
 
-        swipeRefreshLayout.setColorSchemeColors(, R.color.green, R.color.red, R.color.yellow)
         subscription = RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
