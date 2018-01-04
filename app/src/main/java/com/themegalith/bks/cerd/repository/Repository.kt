@@ -1,9 +1,10 @@
 package com.themegalith.bks.cerd.repository
 
+import com.themegalith.bks.cerd.exception.ApiException
+import com.themegalith.bks.cerd.exception.NetworkException
 import com.themegalith.bks.cerd.network.CoinMarketCapApi
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -16,9 +17,8 @@ class Repository @Inject constructor(val service: CoinMarketCapApi.Service) {
                 .map { result ->
 
                     when {
-                        result.isError -> {Timber.e(result.error())
-                            throw result.error()!!}
-                        !(result.response()?.isSuccessful)!! -> throw RuntimeException(result.response()?.errorBody().toString())
+                        result.isError -> throw NetworkException(result.error()!!)
+                        !(result.response()?.isSuccessful)!! -> throw ApiException(result.response()?.code()!!,  result.response()?.errorBody().toString())
                         else -> return@map result.response()?.body()
                     }
                 }

@@ -21,10 +21,15 @@ class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInt
     private var tickers: MutableLiveData<MutableList<TickerModel>> = MutableLiveData()
     private var loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
     private var subscription: Disposable? = null
+    private var throwable: MutableLiveData<Throwable> = MutableLiveData()
 
     fun getTicker(): LiveData<MutableList<TickerModel>> {
         loadTicker(interactor.execute())
         return tickers
+    }
+
+    fun getThrowable() : LiveData<Throwable> {
+        return throwable
     }
 
     fun getLoadingStatus() : LiveData<Boolean>{
@@ -44,6 +49,7 @@ class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInt
             Timber.d("Updating LiveData...END")
         }, { error ->
             Timber.e(error)
+            throwable.postValue(error)
         })
     }
 

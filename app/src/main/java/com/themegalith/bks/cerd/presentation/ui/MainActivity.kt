@@ -3,16 +3,18 @@ package com.themegalith.bks.cerd
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import com.themegalith.bks.cerd.di.component.ApplicationComponent
 import com.themegalith.bks.cerd.di.module.MainModule
+import com.themegalith.bks.cerd.exception.ApiException
+import com.themegalith.bks.cerd.exception.NetworkException
 import com.themegalith.bks.cerd.presentation.BaseActivity
 import com.themegalith.bks.cerd.presentation.adapter.TickerAdapter
 import com.themegalith.bks.cerd.presentation.model.TickerModel
@@ -27,7 +29,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     @Inject lateinit var viewModel: MainActivityViewModel
-    private var tickerAdapter: TickerAdapter? = null
+    private var tickerAdapter: TickerAdapter = TickerAdapter(this)
     private lateinit var observer: Observer<MutableList<TickerModel>>
     private lateinit var subscription: Disposable
 
@@ -43,22 +45,15 @@ class MainActivity : BaseActivity() {
 
         recyclerview.setHasFixedSize(true)
         recyclerview.layoutManager = LinearLayoutManager(this)
+        recyclerview.adapter = tickerAdapter
 
         observer = Observer {
-            if (tickerAdapter == null) {
-                tickerAdapter = TickerAdapter(this)
-                recyclerview.adapter = tickerAdapter
-            }
-
             tickerAdapter?.tickers = it!!
             tickerAdapter?.filter?.filter("")
 
             if (swipeRefreshLayout.isRefreshing) swipeRefreshLayout.isRefreshing = false
         }
 
-        viewModel.getLoadingStatus().observe(this, Observer { showLoadingWheel(it != null && it) })
-
-        viewModel.getTicker().observe(this, observer)
 
         subscription = RxSwipeRefreshLayout.refreshes(swipeRefreshLayout)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,6 +62,19 @@ class MainActivity : BaseActivity() {
                     tickerAdapter?.clear()
                     viewModel.getTicker().observe(this, observer)
                 }
+
+        viewModel.getLoadingStatus().observe(this, Observer { showLoadingWheel(it != null && it) })
+        viewModel.getThrowable().observe(this, Observer {
+            var string = when(it!!){
+                is NetworkException -> getString(R.string.network_issue)
+                is ApiException -> getString(R.string.apiexection)
+                else -> getString(R.string.unknon_issue)
+            }
+            Snackbar.make(findViewById<ViewGroup>(android.R.id.content), string, Snackbar.LENGTH_LONG).show()
+            swipeRefreshLayout.isRefreshing = false
+        })
+        viewModel.getTicker().observe(this, observer)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

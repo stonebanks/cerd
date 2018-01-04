@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">cerd</string>
+    <string name="app_name">Cerd</string>
     <string name="action_settings">Settings</string>
+    <string name="network_issue">Network connection issue</string>
+    <string name="apiexection">Api exception</string>
+    <string name="unknon_issue">Unknown issue</string>
 </resources>

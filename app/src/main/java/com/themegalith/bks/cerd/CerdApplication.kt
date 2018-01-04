@@ -25,7 +25,6 @@ class CerdApplication : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         component = createComponent()
-        //component.inject(this)
     }
 
 }
