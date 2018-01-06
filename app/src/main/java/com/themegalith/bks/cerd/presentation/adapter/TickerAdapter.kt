@@ -19,7 +19,7 @@ import timber.log.Timber
  */
 class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.TickerViewHolder>(), FastScrollRecyclerView.SectionedAdapter, Filterable{
     override fun getSectionName(position: Int): String {
-        return Character.toString(filteredTickers.get(position).symbol[0])
+        return Character.toString(filteredTickers[position].symbol[0])
     }
 
     var tickers: MutableList<TickerModel> = mutableListOf()
@@ -32,7 +32,7 @@ class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.Ticke
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TickerViewHolder {
-        var view = LayoutInflater.from(parent?.context).inflate(R.layout.cardview_ticker, parent, false)
+        val view = LayoutInflater.from(parent?.context).inflate(R.layout.cardview_ticker, parent, false)
         return TickerViewHolder(view)
     }
 
@@ -49,9 +49,9 @@ class TickerAdapter(context: Context) : RecyclerView.Adapter<TickerAdapter.Ticke
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
 
-                var constraint = constraint.toString()
+                val constraint = constraint?.toString()
                 return FilterResults().also {
-                    var filtered = if (!constraint.isNullOrEmpty()) tickers.filter {
+                    val filtered = if (!constraint?.isEmpty()!!) tickers.filter {
                         it.name.contains(constraint, true) || it.symbol.contains(constraint, true)
                     }
                         else tickers

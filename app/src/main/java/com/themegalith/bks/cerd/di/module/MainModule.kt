@@ -2,7 +2,7 @@ package com.themegalith.bks.cerd.di.module
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.themegalith.bks.cerd.MainActivity
+import com.themegalith.bks.cerd.presentation.ui.MainActivity
 import com.themegalith.bks.cerd.di.scope.MainScope
 import com.themegalith.bks.cerd.domain.interactor.TickerGetterInteractor
 import com.themegalith.bks.cerd.network.CoinbinApi
@@ -18,7 +18,7 @@ import javax.inject.Singleton
  */
 
 @Module
-class MainModule(val activity: MainActivity) {
+class MainModule(private val activity: MainActivity) {
     @Provides @Singleton fun provideActivity() : MainActivity = this.activity
 
     @Provides @MainScope fun provideCoinbinRepository(retrofit: Retrofit) : CoinbinRepository =
@@ -27,7 +27,7 @@ class MainModule(val activity: MainActivity) {
     @Provides @MainScope fun provideInteractor(repository: CoinbinRepository): TickerGetterInteractor = TickerGetterInteractor(repository)
 
     @Provides @MainScope fun provideMainActivityViewModel(interactor: TickerGetterInteractor) : MainActivityViewModel {
-        var obj = object : ViewModelProvider.Factory {
+        val obj = object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(MainActivityViewModel::class.java)){
                     return MainActivityViewModel(interactor) as T

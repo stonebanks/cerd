@@ -17,7 +17,7 @@ import javax.inject.Inject
 /**
  * Created by allan on 30/12/17.
  */
-class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInteractor) : ViewModel() {
+class MainActivityViewModel  @Inject constructor(private val interactor: TickerGetterInteractor) : ViewModel() {
     private var tickers: MutableLiveData<MutableList<TickerModel>> = MutableLiveData()
     private var loadingStatus: MutableLiveData<Boolean> = MutableLiveData()
     private var subscription: Disposable? = null
@@ -37,7 +37,7 @@ class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInt
     }
 
     fun disposeSub() {
-        subscription?.let { it.dispose() }
+        subscription?.dispose()
     }
 
     private fun loadTicker(single: Single<List<CoinbinApi.Ticker>>?) {

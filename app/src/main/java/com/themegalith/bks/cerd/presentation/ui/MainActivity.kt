@@ -1,4 +1,4 @@
-package com.themegalith.bks.cerd
+package com.themegalith.bks.cerd.presentation.ui
 
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
@@ -17,11 +17,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
+import com.themegalith.bks.cerd.R
 import com.themegalith.bks.cerd.di.component.ApplicationComponent
 import com.themegalith.bks.cerd.di.module.MainModule
 import com.themegalith.bks.cerd.exception.ApiException
 import com.themegalith.bks.cerd.exception.NetworkException
-import com.themegalith.bks.cerd.presentation.BaseActivity
 import com.themegalith.bks.cerd.presentation.adapter.TickerAdapter
 import com.themegalith.bks.cerd.presentation.model.TickerModel
 import com.themegalith.bks.cerd.viewModel.MainActivityViewModel
@@ -54,8 +54,8 @@ class MainActivity : BaseActivity() {
         recyclerview.adapter = tickerAdapter
 
         observer = Observer {
-            tickerAdapter?.tickers = it!!
-            tickerAdapter?.filter?.filter("")
+            tickerAdapter.tickers = it!!
+            tickerAdapter.filter.filter("")
 
             if (swipeRefreshLayout.isRefreshing) swipeRefreshLayout.isRefreshing = false
         }
@@ -65,13 +65,13 @@ class MainActivity : BaseActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     viewModel.disposeSub()
-                    tickerAdapter?.clear()
+                    tickerAdapter.clear()
                     viewModel.getTicker().observe(this, observer)
                 }
 
         viewModel.getLoadingStatus().observe(this, Observer { showLoadingWheel(it != null && it) })
         viewModel.getThrowable().observe(this, Observer {
-            var string = when(it!!){
+            val string = when(it!!){
                 is NetworkException -> getString(R.string.network_issue)
                 is ApiException -> getString(R.string.apiexection)
                 else -> getString(R.string.unknon_issue)
@@ -104,11 +104,11 @@ class MainActivity : BaseActivity() {
                             .debounce(500, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe {
-                                tickerAdapter?.filter?.filter(it)
+                                tickerAdapter.filter.filter(it)
                             }
                 }
                 R.id.action_about -> consume {
-                    var s = SpannableString(Html.fromHtml(getString(R.string.about_message)))
+                    val s = SpannableString(Html.fromHtml(getString(R.string.about_message)))
                     Linkify.addLinks(s, Linkify.ALL)
 
                     AlertDialog.Builder(this).setTitle(R.string.title_about)

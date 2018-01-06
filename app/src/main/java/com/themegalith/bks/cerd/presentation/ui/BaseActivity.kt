@@ -1,4 +1,4 @@
-package com.themegalith.bks.cerd.presentation
+package com.themegalith.bks.cerd.presentation.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

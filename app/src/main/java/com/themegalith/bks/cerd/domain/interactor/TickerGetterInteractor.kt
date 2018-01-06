@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  * Created by allan on 30/12/17.
  */
-class TickerGetterInteractor @Inject constructor(val repository: CoinbinRepository) {
+class TickerGetterInteractor @Inject constructor(private val repository: CoinbinRepository) {
 
     fun execute() : Single<List<CoinbinApi.Ticker>>{
         return repository.getTickers()

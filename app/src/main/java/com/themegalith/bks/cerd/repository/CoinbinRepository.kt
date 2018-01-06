@@ -10,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by allan on 05/01/18.
  */
-class CoinbinRepository @Inject constructor(val service: CoinbinApi.Service){
+class CoinbinRepository @Inject constructor(private val service: CoinbinApi.Service){
     fun getTickers() : Single<List<CoinbinApi.Ticker>> {
         return service.getCoins()
                 .subscribeOn(Schedulers.io())

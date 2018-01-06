@@ -12,9 +12,9 @@ import java.util.*
 class TickerMapper {
     companion object {
         fun convert(ticker: CoinbinApi.Ticker) : TickerModel = TickerModel(
-                name = ticker.name!!,
-                symbol = ticker.ticker!!.toUpperCase(),
-                price = Currency.getInstance("USD").getSymbol().toString() +
+                name = ticker.name,
+                symbol = ticker.ticker.toUpperCase(),
+                price = Currency.getInstance("USD").symbol.toString() +
                         BigDecimal(ticker.usd).setScale(Currency.getInstance("USD").defaultFractionDigits, RoundingMode.HALF_UP),
                 rank = ticker.rank)
     }

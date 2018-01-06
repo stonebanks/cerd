@@ -15,7 +15,7 @@ class CerdApplication : Application() {
         lateinit var component : ApplicationComponent
     }
 
-    fun createComponent() : ApplicationComponent =
+    private fun createComponent() : ApplicationComponent =
         DaggerApplicationComponent
                 .builder()
                 .applicationModule(ApplicationModule(this))

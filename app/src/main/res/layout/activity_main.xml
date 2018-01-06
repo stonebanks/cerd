@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.themegalith.bks.cerd.MainActivity">
+    tools:context="com.themegalith.bks.cerd.presentation.ui.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -28,34 +28,6 @@
         android:progressDrawable="@drawable/circular_progress_bar"
         android:layout_gravity="center"/>
 
-    <!--<LinearLayout-->
-        <!--android:orientation="vertical"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-        <!--&gt;-->
-        <!--<RelativeLayout-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:id="@+id/error_layout"-->
-            <!--android:gravity="center"-->
-            <!--android:visibility="visible">-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-
-                    <!--android:textSize="20sp"-->
-                    <!--android:id="@+id/error_textview"-->
-                    <!--android:text="Network issue"-->
-                    <!--android:textStyle="bold|italic"/>-->
-                <!--<Button-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_below="@id/error_textview"-->
-                    <!--android:layout_align="@id/error_textview"-->
-                    <!--android:text="Retry"/>-->
-        <!--</RelativeLayout>-->
         <include layout="@layout/content_main" />
-    <!--</LinearLayout>-->
 
 </android.support.design.widget.CoordinatorLayout>
