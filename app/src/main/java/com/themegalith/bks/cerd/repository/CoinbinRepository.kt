@@ -18,7 +18,7 @@ class CoinbinRepository @Inject constructor(val service: CoinbinApi.Service){
                     when {
                         result.isError -> throw NetworkException(result.error()!!)
                         !(result.response()?.isSuccessful)!! -> throw ApiException(result.response()?.code()!!, result.response()?.errorBody().toString())
-                        else -> return@map result.response()?.body()?.coins?.map { it.value }?.filter { it.rank <= 100 }
+                        else -> return@map result.response()?.body()?.coins?.map { it.value }
                     }
                 }
     }
