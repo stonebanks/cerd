@@ -1,14 +1,20 @@
 package com.themegalith.bks.cerd
 
+import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
+import android.text.Html
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import com.jakewharton.rxbinding2.support.v7.widget.RxSearchView
 import com.themegalith.bks.cerd.di.component.ApplicationComponent
@@ -100,6 +106,13 @@ class MainActivity : BaseActivity() {
                             .subscribe {
                                 tickerAdapter?.filter?.filter(it)
                             }
+                }
+                R.id.action_about -> consume {
+                    var s = SpannableString(Html.fromHtml(getString(R.string.about_message)))
+                    Linkify.addLinks(s, Linkify.ALL)
+
+                    AlertDialog.Builder(this).setTitle(R.string.title_about)
+                            .setMessage(s).show().findViewById<TextView>(android.R.id.message).movementMethod = LinkMovementMethod.getInstance()
                 }
                 else -> super.onOptionsItemSelected(item)
             }

@@ -5,7 +5,7 @@ Open Source Cryptocurrency exchange rate app for Android
 ## Context
 
 This app is primarly a starter project created to learn Kotlin, RxJava, RxBindings and Android Architecture Component.
-It is powered by [coinmarket API](https://coinmarketcap.com/api/)
+It is powered by [coinbin API](https://coinbin.org/)
 
 ### Helpful blog posts and videos
 

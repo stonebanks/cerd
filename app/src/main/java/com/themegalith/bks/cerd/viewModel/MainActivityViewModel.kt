@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.themegalith.bks.cerd.domain.interactor.TickerGetterInteractor
-import com.themegalith.bks.cerd.network.CoinMarketCapApi
+import com.themegalith.bks.cerd.network.CoinbinApi
 import com.themegalith.bks.cerd.presentation.model.TickerModel
 import com.themegalith.bks.cerd.utils.TickerMapper
 import io.reactivex.Single
@@ -40,18 +40,22 @@ class MainActivityViewModel  @Inject constructor(val interactor: TickerGetterInt
         subscription?.let { it.dispose() }
     }
 
-    private fun loadTicker(single: Single<MutableList<CoinMarketCapApi.Ticker>>?) {
-        subscription = single?.doOnSubscribe {loadingStatus.value = true}?.observeOn(AndroidSchedulers.mainThread())?.doAfterTerminate { loadingStatus.value = false }?.subscribe({ t ->
-            Timber.d("Updating LiveData..")
-            tickers.postValue(
-                    t.map { TickerMapper.convert(it)}.sortedBy { it.symbol } as MutableList<TickerModel>?
-            )
-            Timber.d("Updating LiveData...END")
-        }, { error ->
-            Timber.e(error)
-            throwable.postValue(error)
+    private fun loadTicker(single: Single<List<CoinbinApi.Ticker>>?) {
+        single?.
+        doOnSubscribe {loadingStatus.value = true}?.
+        observeOn(AndroidSchedulers.mainThread())?.
+        doAfterTerminate { loadingStatus.value = false }?.
+        subscribe({
+            success ->
+                Timber.d("Updating LiveData..")
+                tickers.postValue(
+                        success.map { TickerMapper.convert(it) }.sortedBy { it.symbol } as MutableList<TickerModel>?
+                )
+                Timber.d("Updating LiveData...END")
+        },
+        {
+            error -> throwable.postValue(error)
         })
     }
-
 
 }

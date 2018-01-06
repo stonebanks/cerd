@@ -1,7 +1,7 @@
 package com.themegalith.bks.cerd.domain.interactor
 
-import com.themegalith.bks.cerd.network.CoinMarketCapApi
-import com.themegalith.bks.cerd.repository.Repository
+import com.themegalith.bks.cerd.network.CoinbinApi
+import com.themegalith.bks.cerd.repository.CoinbinRepository
 import io.reactivex.Single
 
 import javax.inject.Inject
@@ -9,16 +9,10 @@ import javax.inject.Inject
 /**
  * Created by allan on 30/12/17.
  */
-class TickerGetterInteractor @Inject constructor(val repository: Repository) {
+class TickerGetterInteractor @Inject constructor(val repository: CoinbinRepository) {
 
-    private var cryptoId : String? = null
-    private var fiat: String? = null
-
-    fun setFiat(value : String){
-        fiat = value
+    fun execute() : Single<List<CoinbinApi.Ticker>>{
+        return repository.getTickers()
     }
 
-    fun execute() : Single<MutableList<CoinMarketCapApi.Ticker>>? {
-        return repository.getTickerForSpecificCrypto(fiat)
-    }
 }

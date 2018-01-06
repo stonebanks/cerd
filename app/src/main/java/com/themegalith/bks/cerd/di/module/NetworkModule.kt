@@ -31,7 +31,7 @@ class NetworkModule {
 
     @Provides @Singleton fun provideRetrofit(moshi: Moshi, httpClient: OkHttpClient): Retrofit =
             Retrofit.Builder()
-                    .baseUrl("https://api.coinmarketcap.com/v1/")
+                    .baseUrl("https://api.ff.com/v1/")
                     .client(httpClient)
                     .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

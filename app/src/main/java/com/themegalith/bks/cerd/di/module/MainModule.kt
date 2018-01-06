@@ -5,8 +5,8 @@ import android.arch.lifecycle.ViewModelProvider
 import com.themegalith.bks.cerd.MainActivity
 import com.themegalith.bks.cerd.di.scope.MainScope
 import com.themegalith.bks.cerd.domain.interactor.TickerGetterInteractor
-import com.themegalith.bks.cerd.network.CoinMarketCapApi
-import com.themegalith.bks.cerd.repository.Repository
+import com.themegalith.bks.cerd.network.CoinbinApi
+import com.themegalith.bks.cerd.repository.CoinbinRepository
 import com.themegalith.bks.cerd.viewModel.MainActivityViewModel
 import dagger.Module
 import dagger.Provides
@@ -21,10 +21,10 @@ import javax.inject.Singleton
 class MainModule(val activity: MainActivity) {
     @Provides @Singleton fun provideActivity() : MainActivity = this.activity
 
-    @Provides @MainScope fun provideRepository(retrofit: Retrofit) : CoinMarketCapApi.Service =
-            retrofit.create(CoinMarketCapApi.Service::class.java)
+    @Provides @MainScope fun provideCoinbinRepository(retrofit: Retrofit) : CoinbinRepository =
+            CoinbinRepository(retrofit.create(CoinbinApi.Service::class.java))
 
-    @Provides @MainScope fun provideInteractor(repository: Repository): TickerGetterInteractor = TickerGetterInteractor(repository)
+    @Provides @MainScope fun provideInteractor(repository: CoinbinRepository): TickerGetterInteractor = TickerGetterInteractor(repository)
 
     @Provides @MainScope fun provideMainActivityViewModel(interactor: TickerGetterInteractor) : MainActivityViewModel {
         var obj = object : ViewModelProvider.Factory {

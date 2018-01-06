@@ -4,4 +4,9 @@
     <string name="network_issue">Network connection issue</string>
     <string name="apiexection">Api exception</string>
     <string name="unknon_issue">Unknown issue</string>
+    <string name="action_about">About</string>
+    <string name="title_about">About</string>
+    <string name="about_message"><![CDATA[<p>Cerd is an Open-Source (GPLv3) Android Application that displays cryptocurrencies exchange rates.</p>
+<p>Also, The application uses CoinBin API. (https://coinbin.org/) </p>
+<p>More info at https://github.com/stonebanks/cerd</p>]]></string>
 </resources>
